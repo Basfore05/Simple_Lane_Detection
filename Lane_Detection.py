@@ -58,52 +58,7 @@ def region_of_interest(image):
 #  loading and showing the image
 image = cv2.imread('test_image.jpg')
 
-
-# edge detection - identifying sharp changes in intensity in adjacent pixels (like turnings)
-# for finding edges, gradient is used
-
-# ************        Step 1      **************
-# convert the image into grayscale, because in grayscale image 1px consists of only one color where intensity ranges from 0-255 but a normal color is a combination of three color channels 
-
 lane_image = np.copy(image)
-# gray= cv2.cvtColor(lane_image, cv2.COLOR_RGB2GRAY)
-  
-# *************      Step 2      **************** 
-
-# Gaussian Blur = clarifies the image, image may be blurry which creates barriers in detecting the lanes 
-
-# blur = cv2.GaussianBlur(gray_scale, (5,5), 0)
-
-# 5/5 = at first affect will be applied to the 5/5 area of the the full image after that for next 5/5 and so on
-
-# *************     Step 3        ***************
-
-# Canny Method = traces the outline of the edges that corresponds sharp changes in intensity gradients
-# used to show the strongest gradients in our image
-#  a function is created where the canny method is used and will return canny which we gonna print
-# canny = cv2.Canny(blur, 50, 150) 
-
-
-# *************     Step 4         ****************
-
-#  plt is used to show our image in x and y directions and here, we just need to pass the result to show
-# it creates a triangular path in our image which is our region of interest
-
-# *************     Step 5       upward in the function region of interest        ****************
-
-
-# *************     Step 6       =  Hough Transform     ***************
-#  Hough Transform =    detects the straight lines in our region of interest
-
-# canny_image = canny(lane_image)
-# cropped_image = region_of_interest(canny_image)
-# lines = cv2.HoughLinesP(cropped_image, 2, np.pi/180, 100, np.array([]), minLineLength=40, maxLineGap=5)
-# averaged_lines = average_slope_intercept(lane_image, lines)
-# line_image = display_lines(lane_image, averaged_lines)
-# combo_image = cv2.addWeighted(lane_image, 0.8, line_image, 1, 1) # used to show our lines in the original color image
-# cv2.imshow("Result", combo_image)
-# cv2.waitKey(0)
-
 
 cap = cv2.VideoCapture("test2.mp4")
 while cap.isOpened():
@@ -114,11 +69,7 @@ while cap.isOpened():
     averaged_lines = average_slope_intercept(frame, lines)
     line_image = display_lines(frame, averaged_lines)
     combo_image = cv2.addWeighted(frame, 0.8, line_image, 1, 1)
-    # Use matplotlib.pyplot.imshow() to display the image
-    # plt.imshow(cv2.cvtColor(combo_image, cv2.COLOR_BGR2RGB))
-    # plt.show()
 
-    # res=cv2.cvtColor(combo_image, cv2.COLOR_BGR2RGB)
     cv2.imshow("Lane", combo_image)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
